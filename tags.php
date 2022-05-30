@@ -36,11 +36,12 @@
              */
             $tagId = intval($_GET['tag_id']);
             ?>
-            <?php
+            <?php 
             /**
              * Etape 2: se connecter à la base de donnée
              */
-            $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+            // $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+            include "dbconnect.php";
             ?>
 
             <aside>
