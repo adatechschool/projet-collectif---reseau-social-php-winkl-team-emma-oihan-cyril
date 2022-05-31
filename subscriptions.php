@@ -9,14 +9,31 @@
     <body>
         <?php
         include "menu.php";
-        ?>
+        $userId = intval($_GET['user_id']);
+            /**
+             * Etape 2: se connecter à la base de donnée
+             */
+            // $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+            include "dbconnect.php";
+            ?>
         <div id="wrapper">
             <aside>
+            <?php
+                /**
+                 * Etape 3: récupérer le nom du mot-clé
+                 */
+                $laQuestionEnSql = "SELECT * FROM `users` WHERE id= '$userId' ";
+                $lesInformations = $mysqli->query($laQuestionEnSql);
+                $user = $lesInformations->fetch_assoc();
+               // echo "<pre>" . print_r($user, 1) . "</pre>";
+                ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
                 <section>
                     <h3>Présentation</h3>
+
+
                     <p>Sur cette page vous trouverez la liste des personnes dont
-                        l'utilisatrice
+                        l'utilisatrice <?php echo $user['alias']?>
                         n° <?php echo intval($_GET['user_id']) ?>
                         suit les messages
                     </p>
@@ -29,7 +46,7 @@
                 $userId = intval($_GET['user_id']);
                 // Etape 2: se connecter à la base de donnée
                 // $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-                include "dbconnect.php";
+              //  include "dbconnect.php";
                 
                 // Etape 3: récupérer le nom de l'utilisateur
                 $laQuestionEnSql = "
@@ -42,7 +59,8 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Etape 4: à vous de jouer
                 //@todo: faire la boucle while de parcours des abonnés et mettre les bonnes valeurs ci dessous 
-                ?>
+               
+               ?>
                 <article>
                     <img src="user.jpg" alt="blason"/>
                     <h3>Alexandra</h3>
