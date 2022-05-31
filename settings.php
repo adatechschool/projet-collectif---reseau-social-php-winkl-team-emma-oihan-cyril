@@ -67,7 +67,7 @@
                  */
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puiseffacer la ligne ci-dessous
                 
-                while ($user = $lesInformations->fetch_assoc(){
+                while ($user = $lesInformations->fetch_assoc()){
                     echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>                
                 <article class='parameters'>
