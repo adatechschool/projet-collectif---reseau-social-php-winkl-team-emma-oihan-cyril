@@ -54,35 +54,30 @@
                     WHERE users.id = '$userId' 
                     GROUP BY users.id
                     ";
+
                 $lesInformations = $mysqli->query($laQuestionEnSql);
+
                 if ( ! $lesInformations)
                 {
                     echo("Échec de la requete : " . $mysqli->error);
                 }
-                $user = $lesInformations->fetch_assoc();
 
                 /**
                  * Etape 4: à vous de jouer
                  */
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer les valeurs ci-après puiseffacer la ligne ci-dessous
-                echo "<pre>" . print_r($user, 1) . "</pre>";
+                
+                while ($user = $lesInformations->fetch_assoc(){
+                    echo "<pre>" . print_r($user, 1) . "</pre>";
                 ?>                
                 <article class='parameters'>
                     <h3>Mes paramètres</h3>
                     <dl>
-                        <dt>Pseudo</dt>
-                        <dd>Félicie</dd>
-                        <dt>Email</dt>
-                        <dd>felicie@test.org</dd>
-                        <dt>Nombre de message</dt>
-                        <dd>42</dd>
-                        <dt>Nombre de "J'aime" donnés </dt>
-                        <dd>12</dd>
-                        <dt>Nombre de "J'aime" reçus</dt>
-                        <dd>53</dd>
                     </dl>
 
                 </article>
+                <?php } ?>
+
             </main>
         </div>
     </body>
