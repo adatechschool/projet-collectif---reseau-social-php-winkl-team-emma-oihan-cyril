@@ -12,6 +12,7 @@
         ?>
         <?php
         /**
+         * DONE
          * Etape 1: Ouvrir une connexion avec la base de donnée.
          */
         // on va en avoir besoin pour la suite
@@ -50,9 +51,9 @@
                     ?>
                     <article>
                         <h3>#chaussette</h3>
-                        <p>id:321</p>
+                        <p>id:</p>
                         <nav>
-                            <a href="tags.php?tag_id=321">Messages</a>
+                            <a href="">#<?php echo $tag['taglist']?></a>
                         </nav>
                     </article>
                 <?php } ?>
