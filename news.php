@@ -51,6 +51,7 @@
                     posts.created,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
+                    users.id,
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                     FROM posts
                     JOIN users ON  users.id=posts.user_id
@@ -62,7 +63,6 @@
                     LIMIT 5
                     ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
-                // Vérification
                 if ( ! $lesInformations)
                 {
                     echo "<article>";
@@ -89,9 +89,9 @@
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                       <address> <?php echo $post['author_name']?></address>
+                       <address> <a href= "http://localhost/winkl/wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a></address>
                         <div>
-                            <p><?php echo $post['content']?></p>
+                            <p> <?php echo $post['content']?></p>
                         </div>
                         <footer>
                             <small>♥ <?php echo $post['like_number']?> </small>
@@ -99,8 +99,7 @@
                         </footer>
                     </article>
                     <?php
-                    // avec le <?php ci-dessus on retourne en mode php 
-                }// cette accolade ferme et termine la boucle while ouverte avant.
+                }
                 ?>
 
             </main>
