@@ -46,6 +46,62 @@
                     <p>Sur cette page vous trouverez tous les message de l'utilisatrice : <?php echo $user['alias']?>
                         (n° <?php echo $userId ?>)
                     </p>
+                    <?php
+                    /**
+                     * TRAITEMENT DU FORMULAIRE
+                     */
+                    // Etape 1 : vérifier si on est en train d'afficher ou de traiter le formulaire
+                    // si on recoit un champs email rempli il y a une chance que ce soit un traitement
+                    $enCoursDeTraitement = isset($_POST['post']);
+                    if ($enCoursDeTraitement)
+                    {
+                        // on ne fait ce qui suit que si un formulaire a été soumis.
+                        // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
+                        // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
+                        echo "<pre>" . print_r($_POST, 1) . "</pre>";
+                        // et complétez le code ci dessous en remplaçant les ???
+                        $new_post = $_POST['post'];
+                      
+
+
+                        //Etape 3 : Ouvrir une connexion avec la base de donnée.
+                        $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+                        //Etape 4 : Petite sécurité
+                        // pour éviter les injection sql : https://www.w3schools.com/sql/sql_injection.asp
+                        $new_email = $mysqli->real_escape_string($new_email);
+                        $new_alias = $mysqli->real_escape_string($new_alias);
+                        $new_passwd = $mysqli->real_escape_string($new_passwd);
+                        // on crypte le mot de passe pour éviter d'exposer notre utilisatrice en cas d'intrusion dans nos systèmes
+                        $new_passwd = md5($new_passwd);
+                        // NB: md5 est pédagogique mais n'est pas recommandée pour une vraies sécurité
+                        //Etape 5 : construction de la requete
+                        $lInstructionSql = "INSERT INTO users (id, email, password, alias) "
+                                . "VALUES (NULL, "
+                                . "'" . $new_email . "', "
+                                . "'" . $new_passwd . "', "
+                                . "'" . $new_alias . "'"
+                                . ");";
+                        // Etape 6: exécution de la requete
+                        $ok = $mysqli->query($lInstructionSql);
+                        if ( ! $ok)
+                        {
+                            echo "L'inscription a échouée : " . $mysqli->error;
+                        } else
+                        {
+                            echo "Votre inscription est un succès : " . $new_alias;
+                            echo " <a href='login.php'>Connectez-vous.</a>";
+                        }
+                    }
+                    ?>                     
+                    <form action="registration.php" method="post">
+                        <input type='hidden'name='???' value='achanger'>
+                        <dl>
+                            <dt><label for='post'>Message</label></dt>
+                            <dd><input type='text'name='post'></dd>
+                            
+                        </dl>
+                        <input type='submit'>
+                    </form>
                 </section>
             </aside>
             <main>
