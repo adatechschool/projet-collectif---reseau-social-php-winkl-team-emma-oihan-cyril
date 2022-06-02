@@ -11,19 +11,7 @@
         include "menu.php";
         ?>
         <div id="wrapper" class='profile'>
-
-
-            <aside>
-                <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
-                <section>
-                    <h3>Présentation</h3>
-                    <p>Sur cette page vous trouverez les informations de l'utilisatrice
-                        n° <?php echo intval($_GET['user_id']) ?></p>
-
-                </section>
-            </aside>
-            <main>
-                <?php
+        <?php
                 /**
                  * Etape 1: Les paramètres concernent une utilisatrice en particulier
                  * La première étape est donc de trouver quel est l'id de l'utilisatrice
@@ -31,13 +19,32 @@
                  * Documentation : https://www.php.net/manual/fr/reserved.variables.get.php
                  * ... mais en résumé c'est une manière de passer des informations à la page en ajoutant des choses dans l'url
                  */
-                $userId = intval($_GET['user_id']);
+            $userId = intval($_GET['user_id']);
+            ?>
+            <?php
+            /**
+             * Etape 2: se connecter à la base de donnée
+             */
+            // $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
+            include "dbconnect.php";
+            ?> 
 
-                /**
-                 * Etape 2: se connecter à la base de donnée
-                 */
-                // $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-                include "dbconnect.php";
+            <aside>
+            <?php
+                $laQuestionEnSql = "SELECT * FROM `users` WHERE id= '$userId' ";
+                $lesInformations = $mysqli->query($laQuestionEnSql);
+                $user = $lesInformations->fetch_assoc();
+                ?>
+                <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
+                <section>
+                    <h3>Présentation</h3>
+                    <p>Sur cette page vous trouverez les informations de l'utilisatrice <?php echo $user['alias']?>
+                        n° <?php echo intval($_GET['user_id']) ?></p>
+
+                </section>
+            </aside>
+            <main>
+                <?php
                 
                 /**
                  * Etape 3: récupérer le nom de l'utilisateur
