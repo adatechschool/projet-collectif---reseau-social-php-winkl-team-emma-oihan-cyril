@@ -10,6 +10,7 @@
         <?php
         include "menu.php";
         ?>
+        
         <div id="wrapper">
             <?php
             /**
@@ -46,6 +47,15 @@
                     <p>Sur cette page vous trouverez tous les message de l'utilisatrice : <?php echo $user['alias']?>
                         (n° <?php echo $userId ?>)
                     </p>
+                    <form action="registration.php" method="post">
+                        <input type='hidden'name='???' value='achanger'>
+                        <dl>
+                            <dt><label for='content'>Post</label></dt>
+                            <dd><textarea id='content'name='content' cols="10" rows="5"></textarea></dd>
+                           
+                        </dl>
+                        <input type='submit'>
+                    </form>
                 </section>
             </aside>
             <main>
