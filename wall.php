@@ -60,7 +60,7 @@
                     $lesInformations = $mysqli->query($laQuestionEnSql);
                     while ($user = $lesInformations->fetch_assoc())
                     {
-                        $listAuteurs[$user['id']] = $user['alias'];
+                       $listAuteurs[$user['id']] = $user['alias'];
                     }
 
 
@@ -69,16 +69,20 @@
                      */
                     // Etape 1 : vérifier si on est en train d'afficher ou de traiter le formulaire
                     // si on recoit un champs email rempli il y a une chance que ce soit un traitement
-                    $enCoursDeTraitement = isset($_POST['auteur']);
+                    $enCoursDeTraitement = isset($_POST['message']);
+                    //echo "<pre>" . print_r($_POST, 1) . "</pre>";
+                    //echo $enCoursDeTraitement;  // true
+                    //echo $_POST['message'];
+
                     if ($enCoursDeTraitement)
                     {
                         // on ne fait ce qui suit que si un formulaire a été soumis.
                         // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
                         // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                        echo "<pre>" . print_r($_POST, 1) . "</pre>";
+                        //echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
-                        $authorId = $_POST['auteur'];
-                        $postContent = $_POST['message'];
+                        $authorId = $_POST['auteur'];  // va chercher le name = auteur dans le input en bas
+                        $postContent = $_POST['message'];  // va chercher le name = auteur dans le input en bas
 
 
                         //Etape 3 : Petite sécurité
@@ -93,7 +97,7 @@
                                 . "'" . $postContent . "', "
                                 . "NOW());"  // fin sql
                                 ;  // fermer php
-                        echo $lInstructionSql;
+                        //echo $lInstructionSql;
                         // Etape 5 : execution
                         $ok = $mysqli->query($lInstructionSql);
                         if ( ! $ok)
@@ -105,31 +109,15 @@
                         }
                     }
                     ?>                     
-                    <form action="usurpedpost.php" method="post">
-                        <input type='hidden' name='???' value='achanger'>
+                    <form action="wall.php?user_id=<?php echo $userId ?>" method="post">
+                        <input type='hidden' name='auteur' value='<?php echo $userId ?>'>
                         <dl>
-                            <!-- <dt><label for='auteur'>Auteur</label></dt>
-                            <dd><select name='auteur'>
-                            <?php
-                                    foreach ($listAuteurs as $id => $alias)
-                                        echo "<option value='$id'>$alias</option>";
-                                    ?> 
-                                </select></dd> -->
+                           
                             <dt><label for='message'>Message</label></dt>
                             <dd><textarea name='message'  cols="30" rows="5"></textarea></dd>
                         </dl>
                         <input type='submit'>
                     </form>                    
-                            
-                    <!-- <form action="usurpedpost.php" method="post">
-                        <input type='hidden'name='???' value='achanger'>
-                        <dl>
-                            <dt><label for='content'>Post</label></dt>
-                            <dd><textarea id='content'name='content' cols="30" rows="5"></textarea></dd>
-                           
-                        </dl>
-                        <input type='submit'>
-                    </form> -->
                 </section>
             </aside>
             <main>
