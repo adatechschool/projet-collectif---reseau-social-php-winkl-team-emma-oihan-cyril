@@ -70,8 +70,11 @@ session_start();
                             // documentation: https://www.php.net/manual/fr/session.examples.basic.php
                             $_SESSION['connected_id']=$user['id'];
                             $_SESSION['valid']=true;
-                            header('Location: wall.php?user_id=<?php echo $user['id'] ?>');
-                            exit();                        
+                            echo $user['id'];
+                            header('Location: wall.php?user_id=' .$user['id']);
+                            exit(); 
+    
+                        }
                     }
                     ?>                     
                     <form action="login.php" method="post">
