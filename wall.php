@@ -92,7 +92,7 @@
                         //Etape 4 : construction de la requete
                         $lInstructionSql = "INSERT INTO posts "
                                 . "(id, user_id, content, created) "
-                                . "VALUES (NULL, "
+                                . "VALUES ($id, "
                                 . $authorId . ", "
                                 . "'" . $postContent . "', "
                                 . "NOW());"  // fin sql

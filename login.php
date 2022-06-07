@@ -70,6 +70,7 @@ session_start();
                             // documentation: https://www.php.net/manual/fr/session.examples.basic.php
                             $_SESSION['connected_id']=$user['id'];
                             $_SESSION['valid']=true;
+                            echo "Ma session id : " . $user['id'];
                         }
                     }
                     ?>                     
