@@ -82,7 +82,7 @@
                         //echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
                         $authorId = $_POST['auteur'];  // va chercher le name = auteur dans le input en bas
-                        $postContent = $_POST['message'];  // va chercher le name = auteur dans le input en bas
+                        $postContent = $_POST['message'];  // va chercher le name = message dans le input en bas
 
 
                         //Etape 3 : Petite sécurité

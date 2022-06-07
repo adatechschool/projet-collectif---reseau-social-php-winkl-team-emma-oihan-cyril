@@ -83,7 +83,7 @@ session_start();
                     }
                     ?>                     
                     <form action="usurpedpost.php" method="post">
-                        <input type='hidden' name='???' value='achanger'>
+                        <input type='hidden' name='auteur' value='<?php echo $userId ?>'>
                         <dl>
                             <dt><label for='auteur'>Auteur</label></dt>
                             <dd><select name='auteur'>

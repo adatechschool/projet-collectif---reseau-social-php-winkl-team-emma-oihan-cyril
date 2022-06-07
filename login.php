@@ -35,7 +35,7 @@ session_start();
                         // on ne fait ce qui suit que si un formulaire a été soumis.
                         // Etape 2: récupérer ce qu'il y a dans le formulaire @todo: c'est là que votre travaille se situe
                         // observez le résultat de cette ligne de débug (vous l'effacerez ensuite)
-                       // echo "<pre>" . print_r($_POST, 1) . "</pre>";
+                        echo "<pre>" . print_r($_POST, 1) . "</pre>";
                         // et complétez le code ci dessous en remplaçant les ???
                         $emailAVerifier = $_POST['email'];
                         $passwdAVerifier = $_POST['motpasse'];
@@ -61,7 +61,7 @@ session_start();
                         $user = $res->fetch_assoc();
                         if ( ! $user OR $user["password"] != $passwdAVerifier)
                         {
-                            echo "La connexion a échouée. ";
+                            echo "La connexion a échoué. ";
                             
                         } else
                         {
@@ -69,11 +69,12 @@ session_start();
                             // Etape 7 : Se souvenir que l'utilisateur s'est connecté pour la suite
                             // documentation: https://www.php.net/manual/fr/session.examples.basic.php
                             $_SESSION['connected_id']=$user['id'];
+                            $_SESSION['valid']=true;
                         }
                     }
                     ?>                     
                     <form action="login.php" method="post">
-                        <input type='hidden'name='???' value='achanger'>
+                        <input type='hidden' name='id' value='<?php echo $_SESSION['connected_id'] ?>'>
                         <dl>
                             <dt><label for='email'>E-Mail</label></dt>
                             <dd><input type='email'name='email'></dd>

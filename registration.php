@@ -67,7 +67,7 @@
                     }
                     ?>                     
                     <form action="registration.php" method="post">
-                        <input type='hidden'name='???' value='achanger'>
+                        <input type='hidden' name='auteur' value='<?php echo $userId ?>'>
                         <dl>
                             <dt><label for='pseudo'>Pseudo</label></dt>
                             <dd><input type='text'name='pseudo'></dd>
