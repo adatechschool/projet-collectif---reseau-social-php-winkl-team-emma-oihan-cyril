@@ -7,7 +7,37 @@
         <meta charset="utf-8">
         <title>ReSoC - Actualités</title> 
         <meta name="author" content="Julien Falconnet">
+            <!-- Bootstrap CSS -->
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style type="text/css">
+  /* .jumbotron {
+      width: 60%;
+      margin: auto;
+      text-align: center;
+      background-color: #f9f9 ;
+  }
+
+  #output {
+      border: 2px solid black;
+      min-height: 60px;
+      text-align: right;
+      font-weight: bold;
+      font-size: 20px;
+      background-color: rgb(239, 247, 88) ;
+  } */
+
+  .btn {
+      min-width: 100px;
+      border: 2px solid black;
+      text-align: center;
+      right: 25px;
+      margin: 2px;
+      background-color: #f9f9 ;
+  }
+</style>
         <link rel="stylesheet" href="style.css"/>
+
     </head>
     <body>
         <?php
@@ -63,7 +93,7 @@
                     LEFT JOIN likes      ON likes.post_id  = posts.id 
                     GROUP BY posts.id
                     ORDER BY posts.created DESC  
-                    LIMIT 5
+                    LIMIT 50
                     ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 if ( ! $lesInformations)
@@ -92,7 +122,12 @@
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                       <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a></address>
+                       <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
+                            <div class="col-12">
+                            <button type="button" 
+                                class="btn btn-light" 
+                                onclick="input('Suivre')">Suivre</button>
+                        </address>
                         <div>
                             <p> <?php echo $post['content']?></p>
                         </div>
