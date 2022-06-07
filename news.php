@@ -125,8 +125,8 @@
                        <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
                             <div class="col-12">
                             <button type="button" 
-                                class="btn btn-light" 
-                                onclick="input('Suivre')">Suivre</button>
+                                class="btn btn-success" 
+                                onclick="follow()">Suivre</button>
                         </address>
                         <div>
                             <p> <?php echo $post['content']?></p>
