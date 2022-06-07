@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!doctype html>
 <html lang="fr">
     <head>
@@ -92,7 +95,7 @@
                         //Etape 4 : construction de la requete
                         $lInstructionSql = "INSERT INTO posts "
                                 . "(id, user_id, content, created) "
-                                . "VALUES ($id, "
+                                . "VALUES (NULL, "
                                 . $authorId . ", "
                                 . "'" . $postContent . "', "
                                 . "NOW());"  // fin sql
@@ -106,6 +109,7 @@
                         } else
                         {
                             echo "Message posté en tant que :" . $listAuteurs[$authorId];
+                            //exit();
                         }
                     }
                     ?>                     
