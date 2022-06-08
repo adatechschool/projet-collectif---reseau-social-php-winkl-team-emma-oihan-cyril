@@ -104,6 +104,27 @@
                     exit();
                 }
 
+                function follow() {
+                    echo "hello";
+                    // $lInstructionSql = "INSERT INTO followers "
+                    //             . "(id, followed_user_id, following_user_id) "
+                    //             . VALUES (NULL, $post['id'], $_SESSION['connected_id']) ; // fin sql
+                    //             ;  // fermer php
+                    //             // INSERT INTO followers (id, followed_user_id, following_user_id)
+                    //             // VALUES (NULL, 3,5);
+                    //     echo $lInstructionSql;
+                    //     // Etape 5 : execution
+                    //     $ok = $mysqli->query($lInstructionSql);
+                    //     if ( ! $ok)
+                    //     {
+                    //         echo "Impossible de suivre cette personne : " . $mysqli->error;
+                    //     } else
+                    //     {
+                    //         echo " Vous suivez cette personne :" . $post['author_name'];
+                    //         //exit();
+                    //     }
+                    }
+
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())
@@ -124,9 +145,12 @@
                         </h3>
                        <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
                             <div class="col-12">
-                            <button type="button" 
+                                <!-- on affiche suivre seulement si ce n'est pas son compte à lui. -->
+                                <?php if($_SESSION['connected_id'] != $post['id']) { ?>
+                                 <button type="button" 
                                 class="btn btn-success" 
                                 onclick="follow()">Suivre</button>
+                                <?php } ?>
                         </address>
                         <div>
                             <p> <?php echo $post['content']?></p>

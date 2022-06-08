@@ -9,3 +9,24 @@
 // trouver la longueur de la liste des followers pour l'afficher sur le profil de la personne
 // permettre d'afficher la liste des followers.
 // comparer les noms pour savoir à qui est le compte: si compte courant est différent du compte affiché alors ne pas afficher de bouton suivre.
+
+
+$lInstructionSql = "INSERT INTO followers "
+                                . "(id, followed_user_id, following_user_id) "
+                                . "VALUES (NULL, "
+                                . $post['id'] . ", "
+                                . "'" . $_SESSION['connected_id'];" // fin sql
+                                ;  // fermer php
+
+                        //echo $lInstructionSql;
+                        // Etape 5 : execution
+                        $ok = $mysqli->query($lInstructionSql);
+                        if ( ! $ok)
+                        {
+                            echo "Impossible de suivre cette personne : " . $mysqli->error;
+                        } else
+                        {
+                            echo " Vous suivez cette personne :" . $post['author_name'];
+                            //exit();
+                        }
+                    }
