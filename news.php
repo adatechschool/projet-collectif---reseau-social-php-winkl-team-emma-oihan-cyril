@@ -8,7 +8,7 @@
         <title>ReSoC - Actualités</title> 
         <meta name="author" content="Julien Falconnet">
             <!-- Bootstrap CSS -->
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+       <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 
 <style type="text/css">
   /* .jumbotron {
@@ -17,7 +17,6 @@
       text-align: center;
       background-color: #f9f9 ;
   }
-
   #output {
       border: 2px solid black;
       min-height: 60px;
@@ -56,7 +55,7 @@
                 <?php
                 /*
                   // C'est ici que le travail PHP commence
-                  // Votre mission si vous l'acceptez est de chercher dans la base
+                  // Votre mission si vous l'acceptez est de chercher dans la base
                   // de données la liste des 5 derniers messsages (posts) et
                   // de l'afficher
                   // Documentation : les exemples https://www.php.net/manual/fr/mysqli.query.php
@@ -104,6 +103,7 @@
                     exit();
                 }
 
+
                 // Etape 3: Parcourir ces données et les ranger bien comme il faut dans du html
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())
@@ -124,39 +124,52 @@
                         </h3>
                        <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
                             <div class="col-12">
-                                <!-- on affiche suivre seulement si ce n'est pas son compte à lui. -->
-                                <?php if($_SESSION['connected_id'] != $post['id']) { ?>
-                                    <!-- <button type="button" 
-                                    class="btn btn-success" 
-                                    onclick="follow()">Suivre</button> -->
+
+                            <?php $laQuestionEnSql = "
+                            SELECT * FROM followers 
+                            WHERE following_user_id =".  $_SESSION['connected_id']. "AND followed_user_id =" .$post['id'] ."
+                            LIMIT 1";
+                            
+                            //si on suit qq ça retourne true
+                            $lesInformations = $mysqli->query($laQuestionEnSql); //query sert à transformer des strings en appel vers la base de données
+                            // $lesInformations = true;
+                            if ( ! $lesInformations)
+                            {
+                                // echo "<article>";
+                                // echo("Échec de la requete : " . $mysqli->error);
+                                // echo("<p>Indice: Vérifiez la requete  SQL suivante dans phpmyadmin<code>$laQuestionEnSql</code></p>"); ?>
+                                <form method="post" action="news.php">
+                                    <!-- class="btn btn-success"  -->
+                                    <input type="hidden" name="suivi" value="true" />
+                                    <input type="button" value="Suivi" />
+                                </form>
+                            <?php 
+                            }   else { ?>
                                     <form method="post" action="news.php">
-                                        <input type="hidden" name="hello" value="true" />
+                                        <input type="hidden" name="suivre" value="true" />
                                         <input type="button" value="Suivre" />
                                     </form>
-
-                                <?php if ($_POST['hello'] != "true") { ?>
-                                    <?php $lInstructionSql = "INSERT INTO followers "
-                                    . "(id, followed_user_id, following_user_id) "
-                                    . "VALUES (NULL, "
-                                    . $post['id'] . ", "
-                                    . $_SESSION['connected_id'] .")"; // fin sql
-                                    ;  // fermer php
-                                    // INSERT INTO followers (id, followed_user_id, following_user_id)
-                                    // VALUES (NULL, 3,5);
-                                    //echo $lInstructionSql;
-                                    // Etape 5 : execution
-                                    $ok = $mysqli->query($lInstructionSql);
-                                    if ( ! $ok)
-                                    {
-                                        echo "Impossible de suivre cette personne : " . $mysqli->error;
-                                    } else
-                                    {
-                                        echo " Vous suivez cette personne :" . $post['author_name'];
-                                        //exit();
-                                    } ?>
-                                <?php } ?>
-                            <?php } ?>
-                              
+                                    <?php if ($_POST['suivre'] != "true") { 
+                                        $lInstructionSql = "INSERT INTO followers "
+                                        . "(id, followed_user_id, following_user_id) "
+                                        . "VALUES (NULL, "
+                                        . $post['id'] . ", "
+                                        . $_SESSION['connected_id'] .")"; // fin sql
+                                        ;  // fermer php
+                                  
+                                        // Etape 5 : execution
+                                        $ok = $mysqli->query($lInstructionSql);
+                                        if ( ! $ok)
+                                        {
+                                            echo "Impossible de suivre cette personne : " . $mysqli->error;
+                                        } else
+                                        {
+                                            echo " Vous suivez cette personne :" . $post['author_name'];
+                                            //exit();
+                                        } ?>  <!--fin de else -->
+                                    <?php }  // fin de if 
+                                } ?> <!--fin de else -->
+                  
                         </address>
                         <div>
                             <p> <?php echo $post['content']?></p>
@@ -166,10 +179,7 @@
                             <a href="">#<?php echo $post['taglist']?></a>,
                         </footer>
                     </article>
-                    <?php }
-
-            
-                ?>
+                    <?php } ?>  <!--fin de while -->
 
             </main>
         </div>

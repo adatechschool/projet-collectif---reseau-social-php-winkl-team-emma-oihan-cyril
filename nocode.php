@@ -30,3 +30,6 @@ $lInstructionSql = "INSERT INTO followers "
                             //exit();
                         }
                     }
+
+
+<?php if($_SESSION['connected_id'] != $post['id']) { ?>
