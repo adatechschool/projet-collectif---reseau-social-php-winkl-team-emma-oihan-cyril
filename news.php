@@ -83,7 +83,8 @@
                     posts.created,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
-                    users.id,
+                    
+                    posts.id,
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
                     FROM posts
                     JOIN users ON  users.id=posts.user_id
@@ -92,7 +93,7 @@
                     LEFT JOIN likes      ON likes.post_id  = posts.id 
                     GROUP BY posts.id
                     ORDER BY posts.created DESC  
-                    LIMIT 50
+                    LIMIT 500
                     ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 if ( ! $lesInformations)
@@ -123,17 +124,17 @@
                             <time><?php echo $post['created'] ?></time>
                         </h3>
                        <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
-                            <div class="col-12">
-
-                            <?php $laQuestionEnSql = "
+                            <!-- <div class="col-12"> -->
+                            <!-- Permet de savoir si le suiveur et le suivi sont identique ou pas -->
+                            <?php $laQuestionEnSql2 = "
                             SELECT * FROM followers 
                             WHERE following_user_id =".  $_SESSION['connected_id']. "AND followed_user_id =" .$post['id'] ."
                             LIMIT 1";
                             
                             //si on suit qq ça retourne true
-                            $lesInformations = $mysqli->query($laQuestionEnSql); //query sert à transformer des strings en appel vers la base de données
+                            $lesInformations2 = $mysqli->query($laQuestionEnSql2); //query sert à transformer des strings en appel vers la base de données
                             // $lesInformations = true;
-                            if ( ! $lesInformations)
+                            if ( ! $lesInformations2)
                             {
                                 // echo "<article>";
                                 // echo("Échec de la requete : " . $mysqli->error);
@@ -167,7 +168,7 @@
                                             echo " Vous suivez cette personne :" . $post['author_name'];
                                             //exit();
                                         } ?>  <!--fin de else -->
-                                    <?php }  // fin de if 
+                                    <?php }  // fin de if post
                                 } ?> <!--fin de else -->
                   
                         </address>
@@ -175,7 +176,39 @@
                             <p> <?php echo $post['content']?></p>
                         </div>
                         <footer>
-                            <small>♥ <?php echo $post['like_number']?> </small>
+                     
+
+                            <small> <form method="post" action="news.php">
+                                        <input type="hidden" name="likes" value="true" />
+                                        <input type="button" value="♥ <?php echo $post['like_number']?>" />
+                                    </form> 
+                                     
+                            </small>
+                            <!-- // Faire par ordre de difficulté : 1-Liker à l'infini
+                            // 2-Liker une seule fois!
+                            // 3-Unliker! -->
+                            <?php if ($_POST['likes'] = "true") { 
+                                
+                                        $lInstructionSql = "INSERT INTO likes "
+                                        . "(id, user_id, post_id) "
+                                        . "VALUES (NULL, "
+                                        . $_SESSION['connected_id'] . ", "
+                                        . $post['id'] .")" // fin sql
+                                        ;  // fermer php
+                                       // echo $lInstructionSql;
+
+                                        // Etape 5 : execution
+                                        $ok = $mysqli->query($lInstructionSql);
+                                        if ( ! $ok)
+                                        {
+                                            echo "Impossible de liker cette personne : " . $mysqli->error;
+                                        } else
+                                        {
+                                            //echo " Vous likez cette personne : " . $post['author_name'];
+                                            //exit();
+                                        } ?>  <!--fin de else -->
+                             <?php }  ?> <!-- fin de if post -->
+
                             <a href="">#<?php echo $post['taglist']?></a>,
                         </footer>
                     </article>
