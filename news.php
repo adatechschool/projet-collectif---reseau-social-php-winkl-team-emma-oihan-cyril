@@ -126,37 +126,50 @@
                        <address> <a href= "wall.php?user_id=<?php echo $post['id']?>"><?php echo $post['author_name']?></a>
                             <div class="col-12">
                                 <!-- on affiche suivre seulement si ce n'est pas son compte à lui. -->
-                                <?php if($_SESSION['connected_id'] != $post['id']) { ?>
+                               
                                  <!-- <button type="button" 
                                 class="btn btn-success" 
                                 onclick="follow()">Suivre</button> -->
                                 <form method="post" action="news.php">
                                 <input type="hidden" name="hello" value="true" />
-                                <input type="button" value="Suivre" />
-                                </form>
+                                <?php $laQuestionEnSql = "
+                    SELECT * FROM `followers` WHERE `following_user_id` = $_SESSION['connected_id'] AND `followed_user_id` = $post['id'] LIMIT 1;
+                    ";
+                    //si on suit qq ça retourne 
+                $lesInformations = $mysqli->query($laQuestionEnSql); //query sert à transformer des strings en appel vers la base de données
+                if ( ! $lesInformations)
+                {
+                    echo "<article>";
+                    echo("Échec de la requete : " . $mysqli->error);
+                    echo("<p>Indice: Vérifiez la requete  SQL suivante dans phpmyadmin<code>$laQuestionEnSql</code></p>"); ?>
+                    <input type="button" value="Suivi" />
+                   <?php exit();
+                } else { ?>
+                    <input type="button" value="Suivre" />       </form>
+                    <?php if ($_POST['hello'] != "true") { ?>
+                        <?php $lInstructionSql = "INSERT INTO followers "
+                        . "(id, followed_user_id, following_user_id) "
+                        . "VALUES (NULL, "
+                        . $post['id'] . ", "
+                         . $_SESSION['connected_id'] .")"; // fin sql
+                        ;  // fermer php
+                        // INSERT INTO followers (id, followed_user_id, following_user_id)
+                        // VALUES (NULL, 3,5);
+                //echo $lInstructionSql;
+                // Etape 5 : execution
+                $ok = $mysqli->query($lInstructionSql);
+                if ( ! $ok)
+                {
+                    echo "Impossible de suivre cette personne : " . $mysqli->error;
+                } else
+                {
+                    //echo " Vous suivez cette personne :" . $post['author_name'];
+                    //exit();
+                } ?>
+                 <?php } ?> <!--fin de if -->
+                <?php } ?> <!--fin de else -->
 
-                                <?php if ($_POST['hello'] != "true") { ?>
-                                <?php $lInstructionSql = "INSERT INTO followers "
-                                . "(id, followed_user_id, following_user_id) "
-                                . "VALUES (NULL, "
-                                . $post['id'] . ", "
-                                 . $_SESSION['connected_id'] .")"; // fin sql
-                                ;  // fermer php
-                                // INSERT INTO followers (id, followed_user_id, following_user_id)
-                                // VALUES (NULL, 3,5);
-                        //echo $lInstructionSql;
-                        // Etape 5 : execution
-                        $ok = $mysqli->query($lInstructionSql);
-                        if ( ! $ok)
-                        {
-                            echo "Impossible de suivre cette personne : " . $mysqli->error;
-                        } else
-                        {
-                            echo " Vous suivez cette personne :" . $post['author_name'];
-                            //exit();
-                        } ?>
-                                <?php } ?>
-                                <?php } ?>
+                                
                         </address>
                         <div>
                             <p> <?php echo $post['content']?></p>
@@ -167,7 +180,7 @@
                         </footer>
                     </article>
                     <?php
-                }
+                } //ferme le while
                 ?>
 
             </main>
